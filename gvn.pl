@@ -6,7 +6,11 @@ use v5.14;
 # gvn - git wrapper for svn people
 # Copyright (C) 2015 blindluke
 
+use IPC::Cmd qw[can_run run];
+die 'git is not installed!' unless can_run('git');
+
 my $opmode = shift;
+print_usage() and exit(1) unless defined $opmode;
 
 my %route  = ( 
     setup  => \&setup,
@@ -24,9 +28,9 @@ my %route  = (
     log    => \&log,
 );
 
-( $route{$opmode} || \&usage )->();
+( $route{$opmode} || \&print_usage )->();
 
-sub usage {
+sub print_usage {
     say qq{
     gvn - a git wrapper for svn people
 
