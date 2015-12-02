@@ -38,12 +38,24 @@ sub usage {
     };
 }
 
+sub prompt {
+    my $msg = shift;
+
+    local $| = 1;
+    local $\;
+    say $msg;
+
+    my $ans = <STDIN>;
+    defined $ans ? chomp $ans : say;
+    return $ans;
+}
+
 sub setup {
     say "TODO Performing the initial config.";
 }
 
 sub init {
-    my $repo = 'test';
+    my $repo = prompt("Repository name:");
     mkdir($repo) 
 	or die "Failed to create $repo dir\n";
     chdir($repo)
@@ -58,7 +70,8 @@ sub update {
 }
 
 sub commit {
-    0 == system qw(git commit)
+    my $msg = prompt("Commit message: ");
+    0 == system qq(git commit -a -m "$msg")
 	or die "Failed to commit to staging\n";
     0 == system qw(git push origin master)
 	or die "Failed to push to origin\n";
@@ -71,6 +84,14 @@ sub add {
 
 sub status {
     system qw(git status);
+}
+
+sub diff {
+    system qw(git diff);
+}
+
+sub log {
+    system qw(git log);
 }
 
 # This program is free software: you can redistribute it and/or modify
