@@ -1,4 +1,4 @@
-Blindluke's tools
+blindluke's tools
 =================
 
 This is repository of small, self-contained, commandline scripts that
@@ -13,14 +13,14 @@ as it's easier for me to type in `use v5.14;` than to type in `use
 strict;`. So, if you want to party like it's 1999, you can probably
 make them run on your Perl of choice.
 
-gvn - git wrapper for svn cavemen
----------------------------------
+Scripts
+-------
+
+### gvn - git wrapper for svn cavemen
 
 **gvn.pl** is a git wrapper that makes it simple for simple minded
 people like myself. The aim is to make its usage as similar to
 `bzr`/`svn` as possible, with some additional features on top.
-
-### USAGE ###
 
 **gvn init** asks for reponame, creates reponame dir, initializes an
 empty repo in the directory and links it to github.
@@ -31,6 +31,18 @@ empty repo in the directory and links it to github.
 commit message beforehand.
 
 **gvn add** behaves as expected (as do remove, status, diff and log).
+
+### 2mon - xrandr wrapper for a two screen setup
+
+**2mon** does some guessing and then runs
+
+    xrandr --output DP1 --mode 1920x1200 --left-of LVDS1
+
+`--output` is the other connected screen (DP, HDMI, VGA), `--mode` is
+the maximum supported resolution for this screen, and `--left-of`
+depends on the argument given to **2mon**. The script accepts the
+following arguments: **info** displays detected screens, **right** and
+**left** execute xrandr as explained above.
 
 Author
 ------
