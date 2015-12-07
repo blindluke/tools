@@ -1,7 +1,7 @@
 blindluke's tools
 =================
 
-This is repository of small, self-contained, commandline scripts that
+This is a repository of small, self-contained, commandline scripts that
 make my Debian box a nice place to live in.
 
 Requirements
@@ -18,7 +18,7 @@ Scripts
 
 ### gvn - git wrapper for svn cavemen
 
-**gvn.pl** is a git wrapper that makes it simple for simple minded
+**gvn** is a git wrapper that makes it simple for simple minded
 people like myself. The aim is to make its usage as similar to
 `bzr`/`svn` as possible, with some additional features on top.
 
@@ -34,15 +34,16 @@ commit message beforehand.
 
 ### 2mon - xrandr wrapper for a two screen setup
 
-**2mon** does some guessing and then runs
+**2mon** does some initial guesswork and then runs
 
     xrandr --output DP1 --mode 1920x1200 --left-of LVDS1
 
-`--output` is the other connected screen (DP, HDMI, VGA), `--mode` is
-the maximum supported resolution for this screen, and `--left-of`
-depends on the argument given to **2mon**. The script accepts the
-following arguments: **info** displays detected screens, **right** and
-**left** execute xrandr as explained above.
+or something like the line above, depending on the guesswork.  The
+value for `--output` is the other connected screen (DP, HDMI, VGA),
+value for `--mode` is the maximum supported resolution, and the
+direction depends on the argument given to **2mon** (left or right).
+
+Running `2mon info` shows a short summary of the connected screens.
 
 Author
 ------
