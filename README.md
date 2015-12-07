@@ -45,7 +45,7 @@ direction depends on the argument given to **2mon** (left or right).
 
 Running `2mon info` shows a short summary of the connected screens.
 
-### cutmark - show a section o a markdown file
+### cutmark - show a section of a markdown file
 
 **cutmark** operates as a filter on markdown formatted input. Given a
 section (markdown header) name, it prints out only the section
