@@ -45,6 +45,22 @@ direction depends on the argument given to **2mon** (left or right).
 
 Running `2mon info` shows a short summary of the connected screens.
 
+### cutmark - show a section o a markdown file
+
+**cutmark** operates as a filter on markdown formatted input. Given a
+section (markdown header) name, it prints out only the section
+matching the name given. It supports headers up to level five, with
+both allowed styles.
+
+An example of usage using this `README.md` as input:
+
+    $ cat README.md | cutmark autho
+    Author
+    ------
+    
+    Luke <https://github.com/blindluke>
+
+
 Author
 ------
 
