@@ -62,11 +62,20 @@ sub info {
 
 sub setup {
     my $direction = shift;
-    
-    # TODO check if there is another screen connected
+    my %screens = detect();
 
-    # TODO output,mode should match screen other than LVDS1
-    say "Will run: xrandr --output DP1 --mode 1920x1200 --$direction LVDS1";
+    if (keys %screens != 2) {
+        say "This script works when exactly two screens are connected.";
+        say "Run 2mon info to see info about connected screens.";
+        exit(1);
+    }
+    else {
+        for (keys %screens) {
+            next if /LVDS1/;
+            0 == system qq(xrandr --output $_ --mode $screens{$_} --$direction LVDS1)
+                or die "Failed to execute xrandr.\n";
+        }
+    }
 }
 
 # This program is free software: you can redistribute it and/or modify
