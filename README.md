@@ -60,6 +60,25 @@ An example of usage using this `README.md` as input:
     
     Luke <https://github.com/blindluke>
 
+### apt-dwim - apt / dpkg wrapper, dwim style
+
+**apt-dwim** tries to guess what you mean to do by examining the
+  argument you pass to it.
+
+If the argument is an existing `.deb` file, it runs `dpkg --info` to
+show info about this package.
+
+If the argument looks like a path that exists, it runs `dpkg --search`
+to find out what package the path belongs to.
+
+If the argument looks like a path that does not exist, `apt-file
+search` is used to show what package would provide the file.
+
+If the argument is `update`, `check`, `upgrade` or `autoclean`, it's
+passed on to `apt-get`.
+
+If the argument does not match any of the above, it's treated as a
+search string for `apt-cache search`.
 
 Author
 ------
