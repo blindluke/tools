@@ -80,6 +80,38 @@ passed on to `apt-get`.
 If the argument does not match any of the above, it's treated as a
 search string for `apt-cache search`.
 
+### flog - log filter showing known lines only
+
+**flog** operates on piped STDIN input, iterating over the input lines
+and printing out only those that match a known pattern. Such known
+line is printed with a description. The rest of the lines are counted
+and folded.
+
+Sample output:
+
+    $ tail /var/log/dpkg.log | flog
+    [ 1 unknown line(s) ]
+	2015-12-09 21:56:01 status installed xmms2-plugin-mad:amd64 0.8+dfsg-12
+	The package has been installed.
+	[ 3 unknown line(s) ]
+	2015-12-09 21:56:01 status installed xmms2-plugin-vorbis:amd64 0.8+dfsg-12
+	The package has been installed.
+	[ 2 unknown line(s) ]
+	2015-12-09 21:56:01 status installed libc-bin:amd64 2.19-18+deb8u1
+	The package has been installed.
+	[ 1 unknown line(s) ]
+
+Known patterns are stored in the DATA section, first line of a
+paragraph is the regexp, second line is the description. Example:
+
+    __DATA__
+	
+	\bstatus installed\b
+	The package has been installed.
+
+If terminal supports this, known lines are printed in bold, with the
+descriptions in italic.
+
 Author
 ------
 

@@ -3,7 +3,7 @@
 use warnings;
 use v5.14;
 
-# flog - log filter showing known patterns only
+# flog - log filter showing known lines only
 # Copyright (C) 2015 blindluke
 
 my $version = 'flog 0.5';
@@ -16,7 +16,7 @@ if (defined $arg) {
 	
 sub print_usage {
     say qq{
-    flog - log filter showing known patterns only
+    flog - log filter showing known lines only
 
     Given a piped STDIN input, prints only known lines, and folds the
     rest of the input.  
