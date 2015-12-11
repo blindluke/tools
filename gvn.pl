@@ -55,7 +55,16 @@ sub prompt {
 }
 
 sub setup {
-    say "TODO Performing the initial config.";
+    say "Current git global config:";
+    system qq(git config --list);
+    print "\n";
+    my $user  = prompt("User name:");
+    my $email = prompt("User email:");
+    system qq(git config --global user.name "$user");
+    system qq(git config --global user.email "$email");
+    system qw(git config --global color.ui auto);
+    say "\nAll done. Current git config:";
+    system qq(git config --list);
 }
 
 sub init {
@@ -66,6 +75,9 @@ sub init {
 	or die "Failed to change into $repo\n";
     0 == system('git', 'init')
 	or die "Failed to initialize $repo repo\n";
+    my $ghacc = prompt("GitHub account:");
+    0 == system qq(git remote add origin https://github.com/${ghacc}/${repo}.git)
+	or die "Failed to link repo with GitHub origin\n";
 }
 
 sub update {
@@ -87,7 +99,10 @@ sub add {
 }
 
 sub status {
-    system qw(git status);
+    for (`git -c color.ui=always status`) {
+	s/\([^\)]+\)//;    # strip suggestions in brackets
+	print if /\S/;     # omit blank lines
+    }
 }
 
 sub diff {
