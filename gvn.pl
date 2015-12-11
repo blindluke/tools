@@ -94,7 +94,9 @@ sub commit {
 }
 
 sub add {
-    0 == system qw(git add .)
+    my $file = shift @ARGV;
+    $file = '.' unless defined $file;
+    0 == system qq(git add $file)
 	or die "Failed to add files\n";
 }
 
