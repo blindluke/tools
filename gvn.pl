@@ -22,6 +22,8 @@ my %route  = (
     add    => \&add,
     remove => \&remove,
     rm     => \&remove,
+    delete => \&remove,
+    del    => \&remove,
     status => \&status,
     stat   => \&status,
     diff   => \&diff,
@@ -37,8 +39,9 @@ sub print_usage {
     gvn setup: rewrites the global config
     gvn init: mkdir, init and github link
     gvn update: does 'git pull origin master'
-    gvn commit: does 'git push origin master'
-    gvn status, gvn diff: behave as expected
+    gvn commit: does commit and 'push origin master'
+    gvn status, log, diff: behave as expected
+    gvn add: without args assumes 'add .'
     };
 }
 
@@ -98,6 +101,14 @@ sub add {
     $file = '.' unless defined $file;
     0 == system qq(git add $file)
 	or die "Failed to add files\n";
+}
+
+sub remove {
+    my $file = shift @ARGV;
+    defined $file or die "Please provide the file name to remove\n";
+    (-e $file) or die "$file does not exist\n";
+    0 == system qq(git remove $file)
+	or die "Failed to remove $file\n";
 }
 
 sub status {
