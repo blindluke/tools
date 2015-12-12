@@ -6,7 +6,7 @@ use v5.14;
 # flog - log filter showing known lines only
 # Copyright (C) 2015 blindluke
 
-my $version = 'flog 0.5';
+my $version = 'flog 0.8';
 
 my $arg = shift;
 if (defined $arg) {
@@ -34,6 +34,31 @@ sub prep_patterns {
     return @patterns;
 }
 
+sub print_known_line {
+    my $line = shift;
+    $line =~ s/\R//g;
+    say "\e[1m".$line."\e[0m";
+}
+
+sub print_description {
+    my $line = shift;
+    $line =~ s/\R//g;
+    say "\e[2m    ".$line."\e[0m" if $line;
+}
+
+sub print_omitted_lines {
+    my $cnt = shift;
+    if ($cnt == 1) {
+	say "[ $cnt unknown line  ]";
+    }
+    elsif ($cnt > 1) {
+	say "[ $cnt unknown lines ]";
+    }
+    else {
+	exit;
+    }
+}
+
 if (-p STDIN) {
     my $cnt = 0;
     my @patterns = prep_patterns();
@@ -41,17 +66,16 @@ if (-p STDIN) {
     LINE: while (<STDIN>) {
 	for my $p (@patterns) {
 	    if (/$p->{regex}/) {
-		say "[ $cnt unknown line(s) ]" unless ($cnt==0);
-		print "\e[1m".$_."\e[0m";
-		chomp $p->{descr};
-		say "\e[3m    ".$p->{descr}."\e[0m";
+		print_omitted_lines($cnt);
+		print_known_line($_);
+		print_description($p->{descr});
 		$cnt = 0;
 		next LINE;
 	    }
 	}
 	$cnt++;
     }
-    say "[ $cnt unknown line(s) ]" unless ($cnt==0);
+    print_omitted_lines($cnt);
 }
 else {
     print_usage() and exit(1);
@@ -73,8 +97,31 @@ else {
 
 __DATA__
 
-\binstall\b
-The package is about to be installed.
+wlan\d+: associated
+you successfully connected to a wireless network
 
-\bstatus installed\b
-The package has been installed.
+Calling CRDA for country
+CRDA is needed for regulatory compliance; some wifi channels aren't allowed in all countries
+
+Kernel command line:
+arguments as passed to the kernel from the bootloader
+
+Calibrating delay loop
+the benchmark units are completely bogus, but are used as a relative CPU speed indicator
+
+Dentry hash table entries
+dcache represents the kernel's view of the namespace of mounted filesystems
+
+eth\d+: link is not ready
+usually means the ethernet cable is disconnected
+
+No NUMA configuration found
+NUMA only matters if you have more than 1 CPU socket (cores do not matter)
+
+\s[sh]d[a-z]:
+layout of partitions, < > brackets denote an extended partition
+
+usb-storage .+: USB Mass Storage device detected
+
+Attached \w+ removable disk
+the connected drive is now ready to use
