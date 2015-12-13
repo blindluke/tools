@@ -89,28 +89,38 @@ and folded.
 
 Sample output:
 
-    $ tail /var/log/dpkg.log | flog
-    [ 1 unknown line(s) ]
-	2015-12-09 21:56:01 status installed xmms2-plugin-mad:amd64 0.8+dfsg-12
-	The package has been installed.
-	[ 3 unknown line(s) ]
-	2015-12-09 21:56:01 status installed xmms2-plugin-vorbis:amd64 0.8+dfsg-12
-	The package has been installed.
-	[ 2 unknown line(s) ]
-	2015-12-09 21:56:01 status installed libc-bin:amd64 2.19-18+deb8u1
-	The package has been installed.
-	[ 1 unknown line(s) ]
+    $ dmesg | flog
+	[ 98 unknown lines ]
+	[    0.000000] No NUMA configuration found
+        NUMA only matters if you have more than 1 CPU socket (cores do not matter)
+    [ 104 unknown lines ]
+	[    0.000032] Calibrating delay loop (skipped), value calculated using timer frequency.. 4988.63 BogoMIPS (lpj=9977272)
+	    the benchmark units are completely bogus, but are used as a relative CPU speed indicator
+	[ 519 unknown lines ]
+	[    3.145266]  sda: sda1 < sda5 sda6 sda7 > sda2 sda3 sda4
+	    layout of partitions, < > brackets denote an extended partition
+	[ 119 unknown lines ]
+	[   15.444470] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+		usually means the ethernet cable is disconnected
+	[ 9 unknown lines ]
+	[   16.943198] wlan0: associated
+	    you successfully connected to a wireless network
+	[ 1 unknown line  ]
+	[   16.943386] cfg80211: Calling CRDA for country: PL
+	    CRDA is needed for regulatory compliance; some wifi channels aren't allowed in all countries
 
 Known patterns are stored in the DATA section, first line of a
 paragraph is the regexp, second line is the description. Example:
 
     __DATA__
-	
-	\bstatus installed\b
-	The package has been installed.
+    
+    eth\d+: link is not ready
+	usually means the ethernet cable is disconnected
+    
+	Attached \w+ removable disk
+	the connected drive is now ready to use
 
-If terminal supports this, known lines are printed in bold, with the
-descriptions in italic.
+Known lines are printed in bold, and the descriptions are colored.
 
 Author
 ------
